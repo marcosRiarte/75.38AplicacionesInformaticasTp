@@ -4,6 +4,7 @@ package com.aplicacionesinformaticas.fiuba.model;
  */
 import com.aplicacionesinformaticas.fiuba.model.Plato
 import com.aplicacionesinformaticas.fiuba.model.Bebida
+import com.aplicacionesinformaticas.fiuba.model.User
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class Orden {
     }
 
     public User getUsuario() {
-        return usuario;
+        return this.usuario;
     }
     
 }
