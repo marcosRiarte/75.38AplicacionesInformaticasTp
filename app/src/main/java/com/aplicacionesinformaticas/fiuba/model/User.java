@@ -13,6 +13,7 @@ public class User {
     private String nacimiento;
     private int genero;
     private int hijos;
+    private int puntos = 0;
     private boolean diabetes;
     private boolean hipertension;
     private boolean hipotension;
@@ -27,7 +28,13 @@ public class User {
         usuarioActual = user;
     }
 
-
+    public void sumarPuntos(int puntosASumar) {
+        this.puntos = this.puntos + puntoASumar;
+    }
+    
+    public int getPuntos() {
+        return this.puntos;
+    }
 
     public String getNombre() {
         return nombre;
