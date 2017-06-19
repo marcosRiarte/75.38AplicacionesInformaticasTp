@@ -14,7 +14,7 @@ public class Bebida {
     private float precio;
     private ArrayList <CondicionMedica>  condicionesMedicasDondeEstaProhibida;
 
-    public Ingrediente (String nombre,float precioXunidad ) {
+    public Bebida (String nombre,float precioXunidad ) {
         this.nombre = nombre;
         this.precio = precioXunidad;
     }

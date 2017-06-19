@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.aplicacionesinformaticas.fiuba.R;
 import com.aplicacionesinformaticas.fiuba.model.User;
+import com.aplicacionesinformaticas.fiuba.utils.SharedPreferencesManager;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
@@ -26,6 +27,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     TextInputEditText tieApellido;
     TextInputEditText tieNacimiento;
     TextInputEditText tieHijos;
+    TextInputEditText tieUser;
+    TextInputEditText tiePassword;
     RadioGroup rgGenero;
     RadioButton rbHombre;
     RadioButton rbMujer;
@@ -35,9 +38,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     CheckBox cbCeliaco;
 
     User user;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         cbHipotension = (CheckBox) findViewById(R.id.cbHipotension);
         cbDiabetico = (CheckBox) findViewById(R.id.cbDiabetes);
 
+        tieUser = (TextInputEditText) findViewById(R.id.etUserName);
+        tiePassword = (TextInputEditText) findViewById(R.id.etPassword);
+
         user = new User();
 
         tieNacimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -75,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             public void onClick(View v) {
                 if (validar()){
                     setUser();
+                    setPassword();
+                    SharedPreferencesManager.getInstance(RegisterActivity.this).saveUser(User.getUsuarioActual());
                     volver();
                 }
             }
@@ -93,6 +98,12 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         user.setHipotension(cbHipotension.isChecked());
 
         User.setUsuarioActual(user);
+    }
+
+    private void setPassword(){
+        SharedPreferencesManager pref = SharedPreferencesManager.getInstance(RegisterActivity.this);
+        pref.setValue(SharedPreferencesManager.KEY_USER, tieUser.getText().toString());
+        pref.setValue(SharedPreferencesManager.KEY_PASSWORD, tiePassword.getText().toString());
     }
 
     public boolean validar(){
@@ -137,7 +148,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         Toast.makeText(RegisterActivity.this, "hola", Toast.LENGTH_LONG);
         TextInputEditText tieDate = (TextInputEditText) findViewById(R.id.tieDate);
         tieDate.setText(dayOfMonth + "/" + month + "/" + year);
-
     }
 
 }

@@ -3,6 +3,7 @@ package com.aplicacionesinformaticas.fiuba.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,10 +11,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.aplicacionesinformaticas.fiuba.R;
+import com.aplicacionesinformaticas.fiuba.utils.SharedPreferencesManager;
 
 public class LoginActivity extends AppCompatActivity {
     public static String TAG = "LoginActivity";
 
+    TextInputEditText etUser;
+    TextInputEditText etPassword;
     Button btnLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +40,13 @@ public class LoginActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
 
                 showRegisterActivity();
             }
         });
+
+        etUser = (TextInputEditText) findViewById(R.id.etUserName);
+        etPassword = (TextInputEditText) findViewById(R.id.etPassword);
     }
 
     private void showRegisterActivity(){
@@ -61,7 +66,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean validar(){
         Log.d(TAG, "Validar" );
-        return true;
+        SharedPreferencesManager spManager = SharedPreferencesManager.getInstance(LoginActivity.this);
+        if ((spManager.getString(SharedPreferencesManager.KEY_USER).equals(etUser.getText().toString())) &&
+           (spManager.getString(SharedPreferencesManager.KEY_PASSWORD).equals(etPassword.getText().toString()))) {
+            return true;
+        } else {
+            Toast.makeText(LoginActivity.this, "La combinacionde Usuario y Password no es correcta", Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
     public void loadMainScreen(){

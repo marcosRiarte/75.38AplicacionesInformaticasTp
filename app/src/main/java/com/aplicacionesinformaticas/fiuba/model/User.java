@@ -29,7 +29,7 @@ public class User {
     }
 
     public void sumarPuntos(int puntosASumar) {
-        this.puntos = this.puntos + puntoASumar;
+        this.puntos = this.puntos + puntosASumar;
     }
     
     public int getPuntos() {

@@ -169,7 +169,51 @@
             android:text="Celiaco"
             />
 
-    <Button
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:hint="Usuario">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etUserName"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:inputType="text"
+                android:maxLength="12"
+                android:translationY="5dp"
+                android:background="#F0F0F0"
+                android:gravity="center_vertical"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:hint="Password">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:inputType="textPassword"
+                android:maxLength="12"
+                android:translationY="5dp"
+                android:background="#F0F0F0"
+                android:gravity="center_vertical"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnGuardar"

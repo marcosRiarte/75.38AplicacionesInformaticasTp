@@ -5,15 +5,15 @@ acumulados por el usuario
  */
 
 import java.lang.String;
-import package com.aplicacionesinformaticas.fiuba.model.Recompensa;
-import package com.aplicacionesinformaticas.fiuba.model.User;
+import com.aplicacionesinformaticas.fiuba.model.Recompensa;
+import com.aplicacionesinformaticas.fiuba.model.User;
 
 
 
 public class ReglaRecompensa {
     private Recompensa recompensa;
     private User usuario;
-    private String estado[3];
+    private String estado[];
 
     public ReglaRecompensa (Recompensa unaRecompensa,User unUsuario) {
         this.recompensa = unaRecompensa;
@@ -23,28 +23,30 @@ public class ReglaRecompensa {
         this.estado[2] = "Ya utilizado";
     }
 
-    public String analizarEstadoRecompensa {
-        if (this.usuario.getPuntos() >= this.recompensa.puntosNecesarios) {
+    public String analizarEstadoRecompensa() {
+        if (this.usuario.getPuntos() >= this.recompensa.getPuntosNecesarios()) {
             return this.estado[0];
         }
         else {
-               if (this.usuario.getPuntos() < this.recompensa.puntosNecesarios) {
+               if (this.usuario.getPuntos() < this.recompensa.getPuntosNecesarios()) {
                    return this.estado[1];
                }
                else {
-                  if (this.fueUsada){
+                  if (this.fueUsada()){
                       return this.estado[2];
+                  } else {
+                      return "invalid state";
                   }
                }
         }
 
     }
-    public bool fueUsada {
+    public boolean fueUsada() {
        // if(this.usuario.getId()) //Aun no esta en la clase usuario)
         //TODO : DESD LA BASE DE DATOS CARGAR LAS RECOMENSAS YA USADAS
          return true;       
     }
-     public actualizarEstado(String nuevoEstado) {
+     public void actualizarEstado(String nuevoEstado) {
         //Nuevo esado en la base de datos 
      }
 }

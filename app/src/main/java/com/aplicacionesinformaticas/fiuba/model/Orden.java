@@ -2,9 +2,9 @@ package com.aplicacionesinformaticas.fiuba.model;
 
 /*Clase que representa la orden de un cliente, que esta compuesta por bebidas y platos.
  */
-import com.aplicacionesinformaticas.fiuba.model.Plato
-import com.aplicacionesinformaticas.fiuba.model.Bebida
-import com.aplicacionesinformaticas.fiuba.model.User
+import com.aplicacionesinformaticas.fiuba.model.Plato;
+import com.aplicacionesinformaticas.fiuba.model.Bebida;
+import com.aplicacionesinformaticas.fiuba.model.User;
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -40,13 +40,13 @@ public class Orden {
     public float getCuenta() {
         float cuenta = 0;
         for (int i = 0 ; i < this.bebidas.size();i++) {
-           cuenta = cuenta + this.bebidas.get(i).precio; 
+           cuenta = cuenta + this.bebidas.get(i).getPrecio();
         }
         
         for (int j = 0 ;j < this.platos.size();j++) {
-            cuenta = cuenta + this.platos.get(j).getPrecioTotal;
+            cuenta = cuenta + this.platos.get(j).getPrecioTotal();
         }
-        
+        return cuenta;
     }
 
     public User getUsuario() {

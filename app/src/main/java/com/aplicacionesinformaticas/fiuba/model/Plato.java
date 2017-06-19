@@ -2,7 +2,7 @@ package com.aplicacionesinformaticas.fiuba.model;
 
 /*Calcula el precio todal del plato en base a los ingredientes que contiene 
  */
-import com.aplicacionesinformaticas.fiuba.model.Ingrediente
+import com.aplicacionesinformaticas.fiuba.model.Ingrediente;
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -11,11 +11,11 @@ public class Plato {
     private float precioTotal;
     private ArrayList <Ingrediente> ingredientesDelPlato;
 
-   Plato(float precioBase){
+   public Plato(float precioBase){
        this.precioBase = precioBase;
        this.precioTotal = 0;
    }
-    public getPrecioBase() {
+    public float getPrecioBase() {
         return this.precioBase;
     }
     

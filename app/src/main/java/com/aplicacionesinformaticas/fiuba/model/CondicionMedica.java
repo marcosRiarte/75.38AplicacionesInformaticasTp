@@ -7,7 +7,7 @@ import java.lang.String;
 public class CondicionMedica {
 
     private int id;
-    private std::String descripcion;
+    private String descripcion;
 
     public CondicionMedica (String descripcion,int ID){
         this.id = ID;
