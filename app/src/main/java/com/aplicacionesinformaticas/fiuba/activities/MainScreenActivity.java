@@ -2,6 +2,7 @@
 package com.aplicacionesinformaticas.fiuba.activities;
 
 import android.app.ActionBar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,8 +10,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.aplicacionesinformaticas.fiuba.R;
+import com.aplicacionesinformaticas.fiuba.fragments.ContactFragment;
+import com.aplicacionesinformaticas.fiuba.fragments.PedidosFragment;
+import com.aplicacionesinformaticas.fiuba.fragments.PerfilFragment;
 import com.aplicacionesinformaticas.fiuba.fragments.ScreenSlidePageFragment;
 
 import java.util.ArrayList;
@@ -19,6 +24,7 @@ import static android.R.attr.fragment;
 
 public class MainScreenActivity extends AppCompatActivity {
 
+    private String TAG = "MainScreenActivity";
     private ViewPager pager;
     private MyFragmentPagerAdapter adapter;
     @Override
@@ -36,14 +42,55 @@ public class MainScreenActivity extends AppCompatActivity {
 
         adapter = new MyFragmentPagerAdapter(
                 getSupportFragmentManager());
-        adapter.addFragment(ScreenSlidePageFragment.newInstance(getResources()
-                .getColor(R.color.blue), 0));
-        adapter.addFragment(ScreenSlidePageFragment.newInstance(getResources()
-                .getColor(R.color.green), 1));
-        adapter.addFragment(ScreenSlidePageFragment.newInstance(getResources()
-                .getColor(R.color.red), 2));
+
+        adapter.addFragment(new PedidosFragment());
+        adapter.addFragment(new PerfilFragment());
+        adapter.addFragment(new ContactFragment());
         this.pager.setAdapter(adapter);
+
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Pedidos"));
+        tabLayout.addTab(tabLayout.newTab().setText("Perfil"));
+        tabLayout.addTab(tabLayout.newTab().setText("Contacto"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.getTabAt(position).select();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
+
+
 }
 
 class MyFragmentPagerAdapter extends FragmentPagerAdapter {
