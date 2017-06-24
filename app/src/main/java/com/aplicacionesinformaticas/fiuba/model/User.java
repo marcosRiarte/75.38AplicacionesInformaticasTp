@@ -18,6 +18,8 @@ public class User {
     private boolean hipertension;
     private boolean hipotension;
     private boolean celiaco;
+    private String userNameLogin;
+    private String password;
     private static User usuarioActual;
 
     public static User getUsuarioActual(){
@@ -106,5 +108,25 @@ public class User {
 
     public void setCeliaco(boolean celiaco) {
         this.celiaco = celiaco;
+    }
+
+    public String getUserNameLogin() {
+        return userNameLogin;
+    }
+
+    public void setUserNameLogin(String userNameLogin) {
+        this.userNameLogin = userNameLogin;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
     }
 }

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.aplicacionesinformaticas.fiuba.R;
+import com.aplicacionesinformaticas.fiuba.model.User;
 import com.aplicacionesinformaticas.fiuba.utils.SharedPreferencesManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -67,8 +68,12 @@ public class LoginActivity extends AppCompatActivity {
     public boolean validar(){
         Log.d(TAG, "Validar" );
         SharedPreferencesManager spManager = SharedPreferencesManager.getInstance(LoginActivity.this);
-        if ((spManager.getString(SharedPreferencesManager.KEY_USER).equals(etUser.getText().toString())) &&
-           (spManager.getString(SharedPreferencesManager.KEY_PASSWORD).equals(etPassword.getText().toString()))) {
+        User u = SharedPreferencesManager.getInstance(LoginActivity.this).getUser();
+        if (u == null){
+            return false;
+        }
+        if (u.getUserNameLogin().equals(etUser.getText().toString()) &&
+           (u.getPassword().equals(etPassword.getText().toString()))) {
             return true;
         } else {
             Toast.makeText(LoginActivity.this, "La combinacionde Usuario y Password no es correcta", Toast.LENGTH_LONG).show();

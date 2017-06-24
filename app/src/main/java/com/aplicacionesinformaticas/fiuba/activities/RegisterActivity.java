@@ -94,6 +94,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         user.setGenero(rbHombre.isChecked() ? User.GENDER_MALE : User.GENDER_FEMALE);
         user.setDiabetes(cbDiabetico.isChecked());
         user.setCeliaco(cbCeliaco.isChecked());
+        user.setUserNameLogin(tieUser.getText().toString());
+        user.setPassword(tiePassword.getText().toString());
         user.setHipertension(cbHipertension.isChecked());
         user.setHipotension(cbHipotension.isChecked());
 
@@ -102,14 +104,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     private void setPassword(){
         SharedPreferencesManager pref = SharedPreferencesManager.getInstance(RegisterActivity.this);
-        pref.setValue(SharedPreferencesManager.KEY_USER, tieUser.getText().toString());
+        pref.setValue(SharedPreferencesManager.KEY_USER_NAME, tieUser.getText().toString());
         pref.setValue(SharedPreferencesManager.KEY_PASSWORD, tiePassword.getText().toString());
     }
 
     public boolean validar(){
         boolean result = true;
         result = result && validar(tieApellido) && validar(tieNacimiento)
-                && validar(tieNombre) && validar(rgGenero) && validar(tieHijos);
+                && validar(tieNombre) && validar(rgGenero) && validar(tieHijos)
+                && validar(tieUser) && validar(tiePassword);
         return result;
     }
 
@@ -124,7 +127,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public boolean validar(RadioGroup radioGroup){
         for (int i = 0; i < radioGroup.getChildCount(); i++){
             if (((RadioButton)radioGroup.getChildAt(i)).isChecked()){
-                Toast.makeText(RegisterActivity.this, "Por favor complete los datos de registro", Toast.LENGTH_LONG).show();
                 return true;
             }
         }
@@ -145,7 +147,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Toast.makeText(RegisterActivity.this, "hola", Toast.LENGTH_LONG);
         TextInputEditText tieDate = (TextInputEditText) findViewById(R.id.tieDate);
         tieDate.setText(dayOfMonth + "/" + month + "/" + year);
     }

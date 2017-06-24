@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.aplicacionesinformaticas.fiuba.model.User;
+import com.google.gson.Gson;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,6 +18,7 @@ import java.io.ObjectOutputStream;
 public class SharedPreferencesManager {
 
     public static final String KEY_USER = "User";
+    public static final String KEY_USER_NAME = "UserName";
     public static final String KEY_PASSWORD = "Pass";
 
     private static SharedPreferencesManager instance = null;
@@ -63,24 +65,29 @@ public class SharedPreferencesManager {
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
         try {
+            /*
             fos = new FileOutputStream(filename);
             out = new ObjectOutputStream(fos);
             out.writeObject(u);
-            out.close();
+            out.close();*/
+            Gson gson = new Gson();
+            String json = gson.toJson(u);
+            setValue(SharedPreferencesManager.KEY_USER, json);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public User getUser(){
-        FileInputStream fis = null;
-        ObjectInputStream in = null;
         User u = null;
         try {
-            fis = new FileInputStream(filename);
+            /*fis = new FileInputStream(filename);
             in = new ObjectInputStream(fis);
             u = (User) in.readObject();
-            in.close();
+            in.close();*/
+            Gson gson = new Gson();
+            String json = getString(SharedPreferencesManager.KEY_USER);
+            u = gson.fromJson(json, User.class);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

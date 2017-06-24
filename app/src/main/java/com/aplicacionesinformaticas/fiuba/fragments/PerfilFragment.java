@@ -1,14 +1,24 @@
 package com.aplicacionesinformaticas.fiuba.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.aplicacionesinformaticas.fiuba.R;
+import com.aplicacionesinformaticas.fiuba.activities.RegisterActivity;
+import com.aplicacionesinformaticas.fiuba.model.User;
+import com.aplicacionesinformaticas.fiuba.utils.SharedPreferencesManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +38,24 @@ public class PerfilFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private View root;
+
+    public static final int RegisterActivityRequestCode = 1;
+    private DatePickerDialog datePickerDialog;
+    Button btnGuardar;
+    TextInputEditText tieNombre;
+    TextInputEditText tieApellido;
+    TextInputEditText tieNacimiento;
+    TextInputEditText tieHijos;
+    TextInputEditText tieUser;
+    TextInputEditText tiePassword;
+    RadioGroup rgGenero;
+    RadioButton rbHombre;
+    RadioButton rbMujer;
+    CheckBox cbHipertension;
+    CheckBox cbHipotension;
+    CheckBox cbDiabetico;
+    CheckBox cbCeliaco;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,14 +94,51 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+
+        User user = SharedPreferencesManager.getInstance(this.getActivity()).getUser();
+
+        root = inflater.inflate(R.layout.activity_register, container, false);
+
+        inicializarVista(user);
+
+        return root;
     }
 
+    private void inicializarVista(User user){
+
+        tieNacimiento = (TextInputEditText) root.findViewById(R.id.tieDate);
+        tieNombre = (TextInputEditText) root.findViewById(R.id.tieNombre);
+        tieApellido = (TextInputEditText) root.findViewById(R.id.tieApellido);
+        tieHijos = (TextInputEditText) root.findViewById(R.id.tieHijos);
+        rgGenero = (RadioGroup) root.findViewById(R.id.rgGenero);
+        rbHombre = (RadioButton)root.findViewById(R.id.rbGeneroHombre);
+        rbMujer = (RadioButton)root.findViewById(R.id.rbGeneroMujer);
+        cbCeliaco = (CheckBox) root.findViewById(R.id.cbCeliaco);
+        cbHipertension = (CheckBox) root.findViewById(R.id.cbHipertension);
+        cbHipotension = (CheckBox) root.findViewById(R.id.cbHipotension);
+        cbDiabetico = (CheckBox) root.findViewById(R.id.cbDiabetes);
+
+        tieUser = (TextInputEditText) root.findViewById(R.id.etUserName);
+        tiePassword = (TextInputEditText) root.findViewById(R.id.etPassword);
+
+        tieNacimiento.setText(user.getNacimiento());
+        tieNombre.setText(user.getNombre());
+        tieApellido.setText(user.getApellido());
+        tieHijos.setText(String.valueOf(user.getHijos()));
+        //rgGenero.setText(user);
+        rbHombre.setChecked(user.getGenero() == User.GENDER_MALE);
+        rbMujer.setChecked(user.getGenero() == User.GENDER_FEMALE);
+        cbCeliaco.setChecked(user.isCeliaco());
+        cbHipertension.setChecked(user.isHipertension());
+        cbHipotension.setChecked(user.isHipotension());
+        cbDiabetico.setChecked(user.isDiabetes());
+
+        tieUser.setText(user.getUserNameLogin());
+        tiePassword.setText(user.getPassword());
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        Toast.makeText(getActivity(), "actualizar", Toast.LENGTH_LONG);
     }
 
     @Override
