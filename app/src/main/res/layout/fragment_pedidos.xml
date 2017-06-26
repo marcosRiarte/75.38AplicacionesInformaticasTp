@@ -10,16 +10,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#DDDDDD"
+            android:layout_margin="1dp">
 
-
-            <ExpandableListView
-                android:id="@+id/lvPedidos"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
+                android:layout_height="wrap_content"
+                android:text="Filtrar x ingrediente"/>
+            <Spinner
+                android:id="@+id/spIngredientes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+            <ListView
+                android:id="@+id/lvPedidos"
+                android:background="#F0F0F0"
+                android:layout_width="match_parent"
+                android:minHeight="200dp"
+                android:layout_height="200dp" />
     </LinearLayout>
 
 </FrameLayout>

@@ -1,5 +1,6 @@
 package com.aplicacionesinformaticas.fiuba.fragments;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,8 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aplicacionesinformaticas.fiuba.R;
@@ -33,10 +39,12 @@ public class PedidosFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = "PedidosFragment";
+    private ArrayList<Ingrediente> ingredientesArrayList;
     private ArrayList<Plato> platoArrayList;
     private View root;
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;
+    private Spinner spIngredientes;
 
 
     // TODO: Rename and change types of parameters
@@ -44,8 +52,9 @@ public class PedidosFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private ExpandableListView listView;
-    private ExpandableListAdapter adapter;
+    private ListView listView;
+    private PlatosAdapter platosAdapter;
+    //private ExpandableListAdapter adapter;
 
     public PedidosFragment() {
         // Required empty public constructor
@@ -86,13 +95,26 @@ public class PedidosFragment extends Fragment {
         root =  inflater.inflate(R.layout.fragment_pedidos, container, false);
 
         crearPlatos();
-        listView = (ExpandableListView) root.findViewById(R.id.lvPedidos);
+        listView = (ListView) root.findViewById(R.id.lvPedidos);
 
-        prepareListData();
+        //prepareListData();
 
-        adapter = new ExpandableListAdapter(root.getContext(), listDataHeader, listDataChild);
-        listView.setAdapter(adapter);
-        
+        platosAdapter = new PlatosAdapter(root.getContext(), platoArrayList);
+
+        listView.setAdapter(platosAdapter);
+
+        spIngredientes = (Spinner)root.findViewById(R.id.spIngredientes);
+
+        ingredientesArrayList = new ArrayList<Ingrediente>();
+        ingredientesArrayList.add(crearIngrediente1());
+        ingredientesArrayList.add(crearIngrediente2());
+        ingredientesArrayList.add(crearIngrediente3());
+        ingredientesArrayList.add(crearIngrediente4());
+        ingredientesArrayList.add(crearIngrediente5());
+        IngredientesAdapter spAdapter = new IngredientesAdapter(root.getContext(), ingredientesArrayList);
+
+        spIngredientes.setAdapter(spAdapter);
+
         return root;
     }
 
@@ -101,11 +123,14 @@ public class PedidosFragment extends Fragment {
         platoArrayList.add(crearPlato1());
         platoArrayList.add(crearPlato2());
         platoArrayList.add(crearPlato3());
+        platoArrayList.add(crearPlato4());
+        platoArrayList.add(crearPlato5());
 
     }
 
     private Plato crearPlato1(){
         Plato plato = new Plato();
+        plato.setNombre("1 - Flaco Spineta");
         plato.agregarIngrediente(crearIngrediente1());
         plato.agregarIngrediente(crearIngrediente3());
         plato.agregarIngrediente(crearIngrediente4());
@@ -115,6 +140,7 @@ public class PedidosFragment extends Fragment {
 
     private Plato crearPlato2(){
         Plato plato = new Plato();
+        plato.setNombre("2 - Miles Davis");
         plato.agregarIngrediente(crearIngrediente2());
         plato.agregarIngrediente(crearIngrediente4());
         plato.agregarIngrediente(crearIngrediente5());
@@ -124,6 +150,7 @@ public class PedidosFragment extends Fragment {
 
     private Plato crearPlato3(){
         Plato plato = new Plato();
+        plato.setNombre("3 - Maceo Parker");
         plato.agregarIngrediente(crearIngrediente2());
         plato.agregarIngrediente(crearIngrediente3());
         plato.agregarIngrediente(crearIngrediente4());
@@ -131,7 +158,23 @@ public class PedidosFragment extends Fragment {
 
         return plato;
     }
+    private Plato crearPlato4(){
+        Plato plato = new Plato();
+        plato.setNombre("4 - Carlos Santana");
+        plato.agregarIngrediente(crearIngrediente3());
+        plato.agregarIngrediente(crearIngrediente4());
+        plato.agregarIngrediente(crearIngrediente5());
 
+        return plato;
+    }
+    private Plato crearPlato5(){
+        Plato plato = new Plato();
+        plato.setNombre("5 - Manu Chao");
+        plato.agregarIngrediente(crearIngrediente4());
+        plato.agregarIngrediente(crearIngrediente5());
+
+        return plato;
+    }
     private Ingrediente crearIngrediente1(){
         Ingrediente i = new Ingrediente("Pollo", 20);
 
@@ -158,6 +201,7 @@ public class PedidosFragment extends Fragment {
 
         return i;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -200,136 +244,112 @@ public class PedidosFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+    public class PlatosAdapter extends BaseAdapter {
 
-        // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
+        private Context context;
+        private List<Plato> platos;
 
-        // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
+        public PlatosAdapter(Context context, List<Plato> platos) {
+            this.context = context;
+            this.platos = platos;
+        }
 
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
+        @Override
+        public int getCount() {
+            return this.platos.size();
+        }
 
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
+        @Override
+        public Object getItem(int position) {
+            return this.platos.get(position);
+        }
 
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View rowView = convertView;
+
+            if (convertView == null) {
+                // Create a new view into the list.
+                LayoutInflater inflater = (LayoutInflater) context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                rowView = inflater.inflate(R.layout.list_item, parent, false);
+            }
+
+            // Set data into the view.
+            //ImageView ivItem = (ImageView) rowView.findViewById(R.id.ivItem);
+            CheckBox nombrePlato = (CheckBox) rowView.findViewById(R.id.cbNombrePlato);
+            TextView detallePlato = (TextView) rowView.findViewById(R.id.tvDetallePlato);
+
+            Plato plato = this.platos.get(position);
+            nombrePlato.setText(plato.getNombre());
+            String listaIngredientes = "";
+            for (int i = 0; i < plato.getIngredientesDelPlato().size(); i++){
+                listaIngredientes = listaIngredientes + plato.getIngredientesDelPlato().get(i).getNombre();
+                if (i < (plato.getIngredientesDelPlato().size() - 1)){
+                    listaIngredientes = listaIngredientes + ", ";
+                }
+
+            }
+            detallePlato.setText(listaIngredientes);
+            //ivItem.setImageResource(item.getImage());
+
+            return rowView;
+        }
+
     }
 
-    public class ExpandableListAdapter extends BaseExpandableListAdapter {
+    public class IngredientesAdapter extends BaseAdapter {
 
-        private Context _context;
-        private List<String> _listDataHeader; // header titles
-        // child data in format of header title, child title
-        private HashMap<String, List<String>> _listDataChild;
+        private Context context;
+        private List<Ingrediente> ingredientes;
 
-        public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                     HashMap<String, List<String>> listChildData) {
-            this._context = context;
-            this._listDataHeader = listDataHeader;
-            this._listDataChild = listChildData;
+        public IngredientesAdapter(Context context, List<Ingrediente> ingredientes) {
+            this.context = context;
+            this.ingredientes = ingredientes;
         }
 
         @Override
-        public Object getChild(int groupPosition, int childPosititon) {
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                    .get(childPosititon);
+        public int getCount() {
+            return this.ingredientes.size();
         }
 
         @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
+        public Object getItem(int position) {
+            return this.ingredientes.get(position);
         }
 
         @Override
-        public View getChildView(int groupPosition, final int childPosition,
-                                 boolean isLastChild, View convertView, ViewGroup parent) {
+        public long getItemId(int position) {
+            return position;
+        }
 
-            final String childText = (String) getChild(groupPosition, childPosition);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View rowView = convertView;
 
             if (convertView == null) {
-                LayoutInflater infalInflater = (LayoutInflater) this._context
+                // Create a new view into the list.
+                LayoutInflater inflater = (LayoutInflater) context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_item, null);
+                rowView = inflater.inflate(R.layout.list_item_ingrediente, parent, false);
             }
 
-            TextView txtListChild = (TextView) convertView
-                    .findViewById(R.id.lblListItem);
+            // Set data into the view.
 
-            txtListChild.setText(childText);
-            return convertView;
+            TextView nombreIngrediente = (TextView) rowView.findViewById(R.id.tvNombreIngrediente);
+
+            Ingrediente ingrediente = this.ingredientes.get(position);
+            nombreIngrediente.setText(ingrediente.getNombre());
+
+            return rowView;
         }
 
-        @Override
-        public int getChildrenCount(int groupPosition) {
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                    .size();
-        }
-
-        @Override
-        public Object getGroup(int groupPosition) {
-            return this._listDataHeader.get(groupPosition);
-        }
-
-        @Override
-        public int getGroupCount() {
-            return this._listDataHeader.size();
-        }
-
-        @Override
-        public long getGroupId(int groupPosition) {
-            return groupPosition;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded,
-                                 View convertView, ViewGroup parent) {
-            String headerTitle = (String) getGroup(groupPosition);
-            if (convertView == null) {
-                LayoutInflater infalInflater = (LayoutInflater) this._context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_group, null);
-            }
-
-            TextView lblListHeader = (TextView) convertView
-                    .findViewById(R.id.lblListHeader);
-            //lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setText(headerTitle);
-
-            return convertView;
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
-        }
     }
 }
