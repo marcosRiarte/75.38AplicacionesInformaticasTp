@@ -20,15 +20,33 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Filtrar x ingrediente"/>
+                android:text="Sugerencias personalizadas"/>
             <Spinner
-                android:id="@+id/spIngredientes"
+                android:id="@+id/spPlatosPersonalizados"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#DDDDDD"
+            android:layout_margin="1dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Platos Mas Pedidos"/>
+            <Spinner
+                android:id="@+id/spMasPedidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
             <ListView
                 android:id="@+id/lvPedidos"
                 android:background="#F0F0F0"

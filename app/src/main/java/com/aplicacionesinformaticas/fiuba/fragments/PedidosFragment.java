@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,7 +46,8 @@ public class PedidosFragment extends Fragment {
     private View root;
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;
-    private Spinner spIngredientes;
+    private Spinner spMasPedidos;
+    private Spinner spPlatosPersonalizados;
 
 
     // TODO: Rename and change types of parameters
@@ -103,17 +106,18 @@ public class PedidosFragment extends Fragment {
 
         listView.setAdapter(platosAdapter);
 
-        spIngredientes = (Spinner)root.findViewById(R.id.spIngredientes);
+        spPlatosPersonalizados = (Spinner)root.findViewById(R.id.spPlatosPersonalizados);
 
-        ingredientesArrayList = new ArrayList<Ingrediente>();
-        ingredientesArrayList.add(crearIngrediente1());
-        ingredientesArrayList.add(crearIngrediente2());
-        ingredientesArrayList.add(crearIngrediente3());
-        ingredientesArrayList.add(crearIngrediente4());
-        ingredientesArrayList.add(crearIngrediente5());
-        IngredientesAdapter spAdapter = new IngredientesAdapter(root.getContext(), ingredientesArrayList);
+        PlatosComboAdapter platosPersonalizadosAdapter = new PlatosComboAdapter(root.getContext(), platoArrayList.subList(0,2));
 
-        spIngredientes.setAdapter(spAdapter);
+        spPlatosPersonalizados.setAdapter(platosPersonalizadosAdapter);
+
+
+        spMasPedidos = (Spinner)root.findViewById(R.id.spMasPedidos);
+
+        PlatosComboAdapter spMasPedidosAdapter = new PlatosComboAdapter(root.getContext(), platoArrayList.subList(2,4));
+
+        spMasPedidos.setAdapter(spMasPedidosAdapter);
 
         return root;
     }
@@ -283,8 +287,12 @@ public class PedidosFragment extends Fragment {
 
             // Set data into the view.
             //ImageView ivItem = (ImageView) rowView.findViewById(R.id.ivItem);
-            CheckBox nombrePlato = (CheckBox) rowView.findViewById(R.id.cbNombrePlato);
+            TextView nombrePlato = (TextView) rowView.findViewById(R.id.tvNombrePlato);
+            final TextView tvCantidad = (TextView) rowView.findViewById(R.id.tvCantidad);
+            ImageButton btnAgregar = (ImageButton) rowView.findViewById(R.id.btnAgregar);
+            ImageButton btnQuitar  = (ImageButton) rowView.findViewById(R.id.btnQuitar);
             TextView detallePlato = (TextView) rowView.findViewById(R.id.tvDetallePlato);
+            tvCantidad.setText(" ");
 
             Plato plato = this.platos.get(position);
             nombrePlato.setText(plato.getNombre());
@@ -294,8 +302,40 @@ public class PedidosFragment extends Fragment {
                 if (i < (plato.getIngredientesDelPlato().size() - 1)){
                     listaIngredientes = listaIngredientes + ", ";
                 }
-
             }
+
+            btnAgregar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Integer cantidad = 0;
+                    try {
+                        cantidad = Integer.valueOf(tvCantidad.getText().toString());
+                    } catch (Exception e){
+                        cantidad = 0;
+                    }
+                        cantidad++;
+                        tvCantidad.setText(String.valueOf(cantidad));
+
+                }
+            });
+            btnQuitar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Integer cantidad = 0;
+                    try {
+                        cantidad = Integer.valueOf(tvCantidad.getText().toString());
+                    } catch (Exception e){
+                        cantidad = 0;
+                    }
+                    if (cantidad > 0) {
+                        cantidad--;
+                        tvCantidad.setText(String.valueOf(cantidad));
+                    }
+                    if (cantidad == 0){
+                        tvCantidad.setText(" ");
+                    }
+                }
+            });
             detallePlato.setText(listaIngredientes);
             //ivItem.setImageResource(item.getImage());
 
@@ -304,24 +344,24 @@ public class PedidosFragment extends Fragment {
 
     }
 
-    public class IngredientesAdapter extends BaseAdapter {
+    public class PlatosComboAdapter extends BaseAdapter {
 
         private Context context;
-        private List<Ingrediente> ingredientes;
+        private List<Plato> platos;
 
-        public IngredientesAdapter(Context context, List<Ingrediente> ingredientes) {
+        public PlatosComboAdapter(Context context, List<Plato> ingredientes) {
             this.context = context;
-            this.ingredientes = ingredientes;
+            this.platos = ingredientes;
         }
 
         @Override
         public int getCount() {
-            return this.ingredientes.size();
+            return this.platos.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return this.ingredientes.get(position);
+            return this.platos.get(position);
         }
 
         @Override
@@ -345,8 +385,9 @@ public class PedidosFragment extends Fragment {
 
             TextView nombreIngrediente = (TextView) rowView.findViewById(R.id.tvNombreIngrediente);
 
-            Ingrediente ingrediente = this.ingredientes.get(position);
-            nombreIngrediente.setText(ingrediente.getNombre());
+
+            Plato plato = this.platos.get(position);
+            nombreIngrediente.setText(plato.getNombre());
 
             return rowView;
         }

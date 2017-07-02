@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -42,7 +43,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_register);
+
 
         datePickerDialog = new DatePickerDialog(RegisterActivity.this, RegisterActivity.this, 1900 , 1, 1);
 
@@ -81,6 +85,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     setPassword();
                     SharedPreferencesManager.getInstance(RegisterActivity.this).saveUser(User.getUsuarioActual());
                     volver();
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Por favor complete los datos del registro", Toast.LENGTH_LONG).show();
                 }
             }
         });
