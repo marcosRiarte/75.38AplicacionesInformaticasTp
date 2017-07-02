@@ -18,6 +18,7 @@ public class User {
     private boolean hipertension;
     private boolean hipotension;
     private boolean celiaco;
+    private boolean alergia;
     private String userNameLogin;
     private String password;
     private static User usuarioActual;
@@ -108,6 +109,14 @@ public class User {
 
     public void setCeliaco(boolean celiaco) {
         this.celiaco = celiaco;
+    }
+    
+     public boolean isAlergia() {
+        return this.alergia;
+    }
+    
+     public void setAlergia(boolean nuevaAlergia) {
+        this.alergia = nuevaAlergia;
     }
 
     public String getUserNameLogin() {
