@@ -101,7 +101,69 @@ public class PerfilFragment extends Fragment {
 
         inicializarVista(user);
 
+        btnGuardar = (Button) root.findViewById(R.id.btnGuardar);
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validar()){
+                    setUser();
+                    setPassword();
+                    SharedPreferencesManager.getInstance(getActivity()).saveUser(User.getUsuarioActual());
+                    Toast.makeText(getActivity(), "Cambios Guardados", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Por favor complete los datos del registro", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         return root;
+    }
+
+    public boolean validar(){
+        boolean result = true;
+        result = result && validar(tieApellido) && validar(tieNacimiento)
+                && validar(tieNombre) && validar(rgGenero) && validar(tieHijos)
+                && validar(tieUser) && validar(tiePassword);
+        return result;
+    }
+
+    public boolean validar(TextInputEditText textInput){
+        return validar(textInput.getText().toString());
+    }
+
+    public boolean validar(String string){
+        return string.replace(" ", "").length() > 0;
+    }
+
+    public boolean validar(RadioGroup radioGroup){
+        for (int i = 0; i < radioGroup.getChildCount(); i++){
+            if (((RadioButton)radioGroup.getChildAt(i)).isChecked()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void setUser(){
+        User user = User.getUsuarioActual();
+        user.setNacimiento(tieNacimiento.getText().toString());
+        user.setNombre(tieNombre.getText().toString());
+        user.setApellido(tieApellido.getText().toString());
+        user.setHijos(Integer.valueOf(tieHijos.getText().toString()));
+        user.setGenero(rbHombre.isChecked() ? User.GENDER_MALE : User.GENDER_FEMALE);
+        user.setDiabetes(cbDiabetico.isChecked());
+        user.setCeliaco(cbCeliaco.isChecked());
+        user.setUserNameLogin(tieUser.getText().toString());
+        user.setPassword(tiePassword.getText().toString());
+        user.setHipertension(cbHipertension.isChecked());
+        user.setHipotension(cbHipotension.isChecked());
+
+        User.setUsuarioActual(user);
+    }
+
+    private void setPassword(){
+        SharedPreferencesManager pref = SharedPreferencesManager.getInstance(getActivity());
+        pref.setValue(SharedPreferencesManager.KEY_USER_NAME, tieUser.getText().toString());
+        pref.setValue(SharedPreferencesManager.KEY_PASSWORD, tiePassword.getText().toString());
     }
 
     private void inicializarVista(User user){

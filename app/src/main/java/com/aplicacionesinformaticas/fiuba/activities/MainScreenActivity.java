@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 
 import com.aplicacionesinformaticas.fiuba.R;
 import com.aplicacionesinformaticas.fiuba.fragments.ContactFragment;
@@ -30,13 +31,10 @@ public class MainScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main_screen);
 
-        ActionBar actionBar = getActionBar();
-
-
         //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
 
         pager = (ViewPager)findViewById(R.id.pager);
 
@@ -58,6 +56,10 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 pager.setCurrentItem(tab.getPosition());
+                if (adapter.getItem(tab.getPosition()) instanceof PedidosFragment){
+                    PedidosFragment pedidosFragment = (PedidosFragment)adapter.getItem(tab.getPosition());
+                    pedidosFragment.inicializarVista();
+                }
             }
 
             @Override

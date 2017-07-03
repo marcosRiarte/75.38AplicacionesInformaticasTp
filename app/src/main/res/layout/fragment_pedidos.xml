@@ -52,7 +52,30 @@
                 android:background="#F0F0F0"
                 android:layout_width="match_parent"
                 android:minHeight="200dp"
-                android:layout_height="200dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="65dp"/>
+
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPuntos"
+            android:text="Puntos: "/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="Realizar Pedido"
+        android:id="@+id/btnRealizarPedido"
+        />
+
+    </LinearLayout>
 </FrameLayout>

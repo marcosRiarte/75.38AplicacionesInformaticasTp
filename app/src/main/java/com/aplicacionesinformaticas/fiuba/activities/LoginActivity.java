@@ -73,9 +73,10 @@ public class LoginActivity extends AppCompatActivity {
         if (u == null){
             return false;
         } else {
-            return true;
+            User.setUsuarioActual(u);
+            //return true;
         }
-        /*
+
         if (u.getUserNameLogin().equals(etUser.getText().toString()) &&
            (u.getPassword().equals(etPassword.getText().toString()))) {
             return true;
@@ -83,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "La combinacionde Usuario y Password no es correcta", Toast.LENGTH_LONG).show();
             return false;
         }
-        */
     }
 
     public void loadMainScreen(){

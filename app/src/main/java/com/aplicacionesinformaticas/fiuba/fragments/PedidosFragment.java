@@ -2,26 +2,35 @@ package com.aplicacionesinformaticas.fiuba.fragments;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aplicacionesinformaticas.fiuba.R;
+import com.aplicacionesinformaticas.fiuba.model.CondicionMedica;
 import com.aplicacionesinformaticas.fiuba.model.Ingrediente;
+import com.aplicacionesinformaticas.fiuba.model.Orden;
 import com.aplicacionesinformaticas.fiuba.model.Plato;
+import com.aplicacionesinformaticas.fiuba.model.User;
+import com.aplicacionesinformaticas.fiuba.utils.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +57,8 @@ public class PedidosFragment extends Fragment {
     private HashMap<String, List<String>> listDataChild;
     private Spinner spMasPedidos;
     private Spinner spPlatosPersonalizados;
+    private Button btnRealizarPedidos;
+    private TextView tvPuntos;
 
 
     // TODO: Rename and change types of parameters
@@ -96,28 +107,13 @@ public class PedidosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root =  inflater.inflate(R.layout.fragment_pedidos, container, false);
+        spMasPedidos = (Spinner)root.findViewById(R.id.spMasPedidos);
+        btnRealizarPedidos = (Button) root.findViewById(R.id.btnRealizarPedido);
+        tvPuntos = (TextView)root.findViewById(R.id.tvPuntos);
 
-        crearPlatos();
         listView = (ListView) root.findViewById(R.id.lvPedidos);
 
-        //prepareListData();
-
-        platosAdapter = new PlatosAdapter(root.getContext(), platoArrayList);
-
-        listView.setAdapter(platosAdapter);
-
-        spPlatosPersonalizados = (Spinner)root.findViewById(R.id.spPlatosPersonalizados);
-
-        PlatosComboAdapter platosPersonalizadosAdapter = new PlatosComboAdapter(root.getContext(), platoArrayList.subList(0,2));
-
-        spPlatosPersonalizados.setAdapter(platosPersonalizadosAdapter);
-
-
-        spMasPedidos = (Spinner)root.findViewById(R.id.spMasPedidos);
-
-        PlatosComboAdapter spMasPedidosAdapter = new PlatosComboAdapter(root.getContext(), platoArrayList.subList(2,4));
-
-        spMasPedidos.setAdapter(spMasPedidosAdapter);
+        inicializarVista();
 
         return root;
     }
@@ -129,6 +125,7 @@ public class PedidosFragment extends Fragment {
         platoArrayList.add(crearPlato3());
         platoArrayList.add(crearPlato4());
         platoArrayList.add(crearPlato5());
+        platoArrayList.add(crearPlato6());
 
     }
 
@@ -148,7 +145,7 @@ public class PedidosFragment extends Fragment {
         plato.agregarIngrediente(crearIngrediente2());
         plato.agregarIngrediente(crearIngrediente4());
         plato.agregarIngrediente(crearIngrediente5());
-
+        plato.agregarIngrediente(crearIngrediente7());
         return plato;
     }
 
@@ -168,6 +165,7 @@ public class PedidosFragment extends Fragment {
         plato.agregarIngrediente(crearIngrediente3());
         plato.agregarIngrediente(crearIngrediente4());
         plato.agregarIngrediente(crearIngrediente5());
+        plato.agregarIngrediente(crearIngrediente6());
 
         return plato;
     }
@@ -176,7 +174,16 @@ public class PedidosFragment extends Fragment {
         plato.setNombre("5 - Manu Chao");
         plato.agregarIngrediente(crearIngrediente4());
         plato.agregarIngrediente(crearIngrediente5());
-
+        plato.agregarIngrediente(crearIngrediente6());
+        return plato;
+    }
+    private Plato crearPlato6(){
+        Plato plato = new Plato();
+        plato.setNombre("6 - Herbie Hancock");
+        plato.agregarIngrediente(crearIngrediente1());
+        plato.agregarIngrediente(crearIngrediente3());
+        plato.agregarIngrediente(crearIngrediente5());
+        plato.agregarIngrediente(crearIngrediente6());
         return plato;
     }
     private Ingrediente crearIngrediente1(){
@@ -196,7 +203,9 @@ public class PedidosFragment extends Fragment {
         return i;
     }
     private Ingrediente crearIngrediente4(){
-        Ingrediente i = new Ingrediente("Miel", 10);
+        ArrayList<CondicionMedica> condicionesIngrediente = new ArrayList<CondicionMedica>();
+        condicionesIngrediente.add(new CondicionMedica(CondicionMedica.CONDICION.DIABETES));
+        Ingrediente i = new Ingrediente("Miel", 10, condicionesIngrediente);
 
         return i;
     }
@@ -206,7 +215,21 @@ public class PedidosFragment extends Fragment {
         return i;
     }
 
+    private Ingrediente crearIngrediente6(){
+        ArrayList<CondicionMedica> condicionesIngrediente = new ArrayList<CondicionMedica>();
+        condicionesIngrediente.add(new CondicionMedica(CondicionMedica.CONDICION.HIPERTENSION));
+        Ingrediente i = new Ingrediente("Jamon Crudo", 20, condicionesIngrediente);
 
+        return i;
+    }
+
+    private Ingrediente crearIngrediente7(){
+        ArrayList<CondicionMedica> condicionesIngrediente = new ArrayList<CondicionMedica>();
+        condicionesIngrediente.add(new CondicionMedica(CondicionMedica.CONDICION.CELIACO));
+        Ingrediente i = new Ingrediente("Harina", 20, condicionesIngrediente);
+
+        return i;
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -258,6 +281,9 @@ public class PedidosFragment extends Fragment {
             this.platos = platos;
         }
 
+        public List<Plato> getPlatos(){
+            return platos;
+        }
         @Override
         public int getCount() {
             return this.platos.size();
@@ -294,11 +320,20 @@ public class PedidosFragment extends Fragment {
             TextView detallePlato = (TextView) rowView.findViewById(R.id.tvDetallePlato);
             tvCantidad.setText(" ");
 
-            Plato plato = this.platos.get(position);
-            nombrePlato.setText(plato.getNombre());
+            final Plato plato = this.platos.get(position);
+            Integer precio = (int) plato.getPrecioTotal();
+            nombrePlato.setText(plato.getNombre() + " - $ " + String.valueOf(precio));
             String listaIngredientes = "";
+            User usuario = User.getUsuarioActual();
             for (int i = 0; i < plato.getIngredientesDelPlato().size(); i++){
+                boolean compatible = usuario.esCompatible(plato.getIngredientesDelPlato().get(i));
+                if (!compatible){
+                    listaIngredientes = listaIngredientes + "<font color=#CC0029>";
+                }
                 listaIngredientes = listaIngredientes + plato.getIngredientesDelPlato().get(i).getNombre();
+                if (!compatible){
+                    listaIngredientes = listaIngredientes + "</font>";
+                }
                 if (i < (plato.getIngredientesDelPlato().size() - 1)){
                     listaIngredientes = listaIngredientes + ", ";
                 }
@@ -314,7 +349,9 @@ public class PedidosFragment extends Fragment {
                         cantidad = 0;
                     }
                         cantidad++;
+                        plato.setCantidadEnOrden(plato.getCantidadEnOrden() + 1);
                         tvCantidad.setText(String.valueOf(cantidad));
+
 
                 }
             });
@@ -329,6 +366,7 @@ public class PedidosFragment extends Fragment {
                     }
                     if (cantidad > 0) {
                         cantidad--;
+                        plato.setCantidadEnOrden(plato.getCantidadEnOrden() - 1);
                         tvCantidad.setText(String.valueOf(cantidad));
                     }
                     if (cantidad == 0){
@@ -336,7 +374,7 @@ public class PedidosFragment extends Fragment {
                     }
                 }
             });
-            detallePlato.setText(listaIngredientes);
+            detallePlato.setText(Html.fromHtml(listaIngredientes));
             //ivItem.setImageResource(item.getImage());
 
             return rowView;
@@ -382,9 +420,7 @@ public class PedidosFragment extends Fragment {
             }
 
             // Set data into the view.
-
             TextView nombreIngrediente = (TextView) rowView.findViewById(R.id.tvNombreIngrediente);
-
 
             Plato plato = this.platos.get(position);
             nombreIngrediente.setText(plato.getNombre());
@@ -392,5 +428,95 @@ public class PedidosFragment extends Fragment {
             return rowView;
         }
 
+    }
+
+
+    public void inicializarVista() {
+
+        //prepareListData();
+        crearPlatos();
+
+        platosAdapter = new PlatosAdapter(root.getContext(), platoArrayList);
+        listView.setAdapter(platosAdapter);
+        platosAdapter.notifyDataSetChanged();
+
+        spPlatosPersonalizados = (Spinner)root.findViewById(R.id.spPlatosPersonalizados);
+
+        PlatosComboAdapter platosPersonalizadosAdapter = new PlatosComboAdapter(root.getContext(), platoArrayList.subList(0,2));
+        spPlatosPersonalizados.setAdapter(platosPersonalizadosAdapter);
+        platosPersonalizadosAdapter.notifyDataSetChanged();
+
+        PlatosComboAdapter spMasPedidosAdapter = new PlatosComboAdapter(root.getContext(), platoArrayList.subList(2,4));
+        spMasPedidos.setAdapter(spMasPedidosAdapter);
+        spMasPedidosAdapter.notifyDataSetChanged();
+
+        btnRealizarPedidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmarPedido();
+            }
+        });
+
+        tvPuntos.setText("Puntos: " + User.getUsuarioActual().getPuntos());
+    }
+
+    private void confirmarPedido(){
+        Orden orden = new Orden(null);
+        for (int i = 0; i < platosAdapter.getCount(); i++){
+            Plato plato = (Plato)platosAdapter.getItem(i);
+            for (int j= 0; j < plato.getCantidadEnOrden(); j++){
+                orden.agregarPlato(plato.duplicar());
+            }
+
+        }
+
+        if ( User.getUsuarioActual().getPuntos() > orden.getCuenta()){
+            confirmarRecompensa(orden);
+        } else {
+            Toast.makeText(getActivity(), "Pedido Realizado", Toast.LENGTH_LONG).show();
+            User.getUsuarioActual().getOrdenes().add(orden);
+            SharedPreferencesManager.getInstance(getActivity()).saveUser(User.getUsuarioActual());
+
+            inicializarVista();
+        }
+    }
+
+    public void mostrarResultado(Orden orden){
+        Toast.makeText(getActivity(), "Pedido Realizado", Toast.LENGTH_LONG).show();
+        User.getUsuarioActual().getOrdenes().add(orden);
+        SharedPreferencesManager.getInstance(getActivity()).saveUser(User.getUsuarioActual());
+
+        inicializarVista();
+    }
+
+    public void resetearDatasets(){
+        platosAdapter.getPlatos().removeAll(platosAdapter.getPlatos());
+        platosAdapter.getPlatos().addAll(platoArrayList);
+        platosAdapter.notifyDataSetChanged();
+    }
+
+    public void confirmarRecompensa(final Orden orden) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Recompensa");
+        alert.setMessage("Desea pagar usando sus puntos?");
+        alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                User.getUsuarioActual().agregarPuntosCobrados(orden.getCuenta());
+                mostrarResultado(orden);
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                mostrarResultado(orden);
+            }
+        });
+
+        alert.show();
     }
 }

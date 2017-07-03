@@ -12,12 +12,14 @@ public class Plato {
     private float precioBase;
     private float precioTotal;
     private String nombre;
+    private int cantidadEnOrden;
     private ArrayList <Ingrediente> ingredientesDelPlato;
 
 
    public Plato(float precioBase){
        this.precioBase = precioBase;
        this.precioTotal = 0;
+       this.cantidadEnOrden = 0;
        this.ingredientesDelPlato = new ArrayList<Ingrediente>();
    }
 
@@ -51,6 +53,7 @@ public class Plato {
     }
 
     public float getPrecioTotal() {
+        this.precioTotal = 0;
         for (int i = 0 ;i < this.ingredientesDelPlato.size();i++) {
             this.precioTotal = this.precioTotal + this.ingredientesDelPlato.get(i).getPrecio();
         }
@@ -65,5 +68,26 @@ public class Plato {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public int getCantidadEnOrden() {
+        return cantidadEnOrden;
+    }
+
+    public void setCantidadEnOrden(int cantidadEnOrden) {
+        this.cantidadEnOrden = cantidadEnOrden;
+    }
+
+    public void setIngredientesDelPlato(ArrayList<Ingrediente> ingredientesDelPlato) {
+        this.ingredientesDelPlato.addAll(ingredientesDelPlato);
+    }
+
+    public Plato duplicar(){
+        Plato plato = new Plato();
+        plato.setPrecioBase(this.getPrecioBase());
+        plato.setNombre(this.getNombre());
+        plato.setIngredientesDelPlato(this.getIngredientesDelPlato());
+
+        return plato;
     }
 }

@@ -20,7 +20,9 @@
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.MainScreenActivity"></activity>
+        <activity android:name=".activities.MainScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

@@ -2,28 +2,39 @@ package com.aplicacionesinformaticas.fiuba.model;
 
 /*Clase que representa la condicio medica de un cliente*/
 
+import java.io.Serializable;
 import java.lang.String;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class CondicionMedica {
 
-    private int id;
-    private String descripcion;
+    public enum CONDICION {
+        DIABETES, HIPERTENSION, HIPOTENSION, CELIACO
+    }
+    private HashMap<CONDICION, String> descripciones;
+    private CONDICION tipo;
 
-    public CondicionMedica (String descripcion,int ID){
-        this.id = ID;
-        this.descripcion = descripcion;
+    public CondicionMedica (CONDICION tipo){
+        this.tipo = tipo;
+        //llenarDecripciones();
+    }
+/*
+    private void llenarDecripciones(){
+        descripciones = new HashMap<CONDICION, String>();
+        descripciones.put(CONDICION.CELIACO, "Celiaco");
+        descripciones.put(CONDICION.DIABETES, "Diabetes");
+        descripciones.put(CONDICION.HIPERTENSION, "Hipertension");
+        descripciones.put(CONDICION.HIPOTENSION, "Hipotension");
+    }
+    */
+
+    public CONDICION getTipo() {
+        return tipo;
     }
 
-    public int getId() {
-        return id;
+    public void setTipo(CONDICION tipo) {
+        this.tipo = tipo;
     }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
 }

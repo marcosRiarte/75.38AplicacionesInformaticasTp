@@ -17,8 +17,15 @@ public class Ingrediente {
     public Ingrediente (String nombre,float precioXunidadDeMedida ) {
         this.nombre = nombre;
         this.precio = precioXunidadDeMedida;
+        this.condicionesMedicasDondeEstaProhibido = new ArrayList<CondicionMedica>();
     }
-    
+
+    public Ingrediente (String nombre,float precioXunidadDeMedida, ArrayList<CondicionMedica> prohibido ) {
+        this.nombre = nombre;
+        this.precio = precioXunidadDeMedida;
+        this.condicionesMedicasDondeEstaProhibido = prohibido;
+    }
+
     public float getPrecio () {
         return this.precio;
     }

@@ -1,5 +1,7 @@
 package com.aplicacionesinformaticas.fiuba.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Gregorio on 6/11/2017.
  */
@@ -18,13 +20,21 @@ public class User {
     private boolean hipertension;
     private boolean hipotension;
     private boolean celiaco;
-    private boolean alergia;
     private String userNameLogin;
     private String password;
+    private ArrayList<CondicionMedica> condicionesMedicas;
+    private ArrayList<Orden> ordenes;
     private static User usuarioActual;
+    private float puntosCobrados;
 
     public static User getUsuarioActual(){
         return usuarioActual;
+    }
+
+    public User(){
+        this.puntosCobrados = 0;
+        this.condicionesMedicas = new ArrayList<CondicionMedica>();
+        this.ordenes = new ArrayList<Orden>();
     }
 
     public static void setUsuarioActual(User user){
@@ -35,9 +45,9 @@ public class User {
         this.puntos = this.puntos + puntosASumar;
     }
     
-    public int getPuntos() {
-        return this.puntos;
-    }
+    //public int getPuntos() {
+   //    return this.puntos;
+   // }
 
     public String getNombre() {
         return nombre;
@@ -85,6 +95,11 @@ public class User {
 
     public void setDiabetes(boolean diabetes) {
         this.diabetes = diabetes;
+        if (diabetes) {
+            agregarCondicionMedica(new CondicionMedica(CondicionMedica.CONDICION.DIABETES));
+        } else {
+            quitarCondicionMedica(CondicionMedica.CONDICION.DIABETES);
+        }
     }
 
     public boolean isHipertension() {
@@ -93,6 +108,11 @@ public class User {
 
     public void setHipertension(boolean hipertension) {
         this.hipertension = hipertension;
+        if (hipertension) {
+            agregarCondicionMedica(new CondicionMedica(CondicionMedica.CONDICION.HIPERTENSION));
+        } else {
+            quitarCondicionMedica(CondicionMedica.CONDICION.HIPERTENSION);
+        }
     }
 
     public boolean isHipotension() {
@@ -101,22 +121,25 @@ public class User {
 
     public void setHipotension(boolean hipotension) {
         this.hipotension = hipotension;
+        if (hipotension) {
+            agregarCondicionMedica(new CondicionMedica(CondicionMedica.CONDICION.HIPOTENSION));
+        } else {
+            quitarCondicionMedica(CondicionMedica.CONDICION.HIPOTENSION);
+        }
     }
 
     public boolean isCeliaco() {
         return celiaco;
+
     }
 
     public void setCeliaco(boolean celiaco) {
         this.celiaco = celiaco;
-    }
-    
-     public boolean isAlergia() {
-        return this.alergia;
-    }
-    
-     public void setAlergia(boolean nuevaAlergia) {
-        this.alergia = nuevaAlergia;
+        if (celiaco) {
+            agregarCondicionMedica(new CondicionMedica(CondicionMedica.CONDICION.CELIACO));
+        } else {
+            quitarCondicionMedica(CondicionMedica.CONDICION.CELIACO);
+        }
     }
 
     public String getUserNameLogin() {
@@ -137,5 +160,70 @@ public class User {
 
     public void setPuntos(int puntos) {
         this.puntos = puntos;
+    }
+
+    public ArrayList<CondicionMedica> getCondicionesMedicas() {
+        return condicionesMedicas;
+    }
+
+    public void setCondicionesMedicas(ArrayList<CondicionMedica> condicionesMedicas) {
+        this.condicionesMedicas = condicionesMedicas;
+    }
+
+    public void agregarCondicionMedica(CondicionMedica condicionMedica){
+        this.condicionesMedicas.add(condicionMedica);
+    }
+
+    public void quitarCondicionMedica(CondicionMedica.CONDICION condicion){
+        for (int i = condicionesMedicas.size(); i > 0; i--) {
+            if (condicionesMedicas.get(i - 1).getTipo() == condicion){
+                condicionesMedicas.remove(i - 1);
+            }
+        }
+    }
+
+    public boolean esCompatible(Ingrediente ingrediente){
+        boolean result = true;
+
+        for (int i = 0; i < condicionesMedicas.size(); i++){
+            CondicionMedica.CONDICION condicionUsuario = condicionesMedicas.get(i).getTipo();
+            for (int j = 0; j < ingrediente.getCondicionesMedicasDondeEstaProhibido().size(); j++ ){
+                CondicionMedica.CONDICION condicionIngrediente = ingrediente.getCondicionesMedicasDondeEstaProhibido().get(j).getTipo();
+                if (condicionUsuario == condicionIngrediente){
+                    return false;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public ArrayList<Orden> getOrdenes() {
+        return ordenes;
+    }
+
+    public void setOrdenes(ArrayList<Orden> ordenes) {
+        this.ordenes = ordenes;
+    }
+
+    public void agregarOrden(Orden orden){
+        this.ordenes.add(orden);
+    }
+
+    public float getPuntos(){
+        float puntos = 0;
+        for (int i = 0; i < ordenes.size(); i++) {
+            puntos += ordenes.get(i).getCuenta() / 10;
+        }
+
+        return puntos - getPuntosCobrados();
+    }
+
+    public float getPuntosCobrados(){
+        return  puntosCobrados;
+    }
+
+    public void agregarPuntosCobrados(Float puntos){
+        this.puntosCobrados += puntos;
     }
 }
