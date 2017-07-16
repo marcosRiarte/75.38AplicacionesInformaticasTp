@@ -14,16 +14,19 @@ import com.android.volley.toolbox.Volley;
  */
 
 public class RequestManager{
-    private RequestManager instance;
+    private static RequestManager instance;
     private Context context;
 
-    private RequestManager() {
+    private RequestManager(Context context) {
+        this.context = context;
 
     }
 
-    public RequestManager getInstance(Context context) {
+    public static RequestManager getInstance(Context context) {
         if (instance == null) {
-            instance = new RequestManager();
+            instance = new RequestManager(context);
+        } else {
+            instance.context = context;
         }
 
         return instance;
@@ -46,14 +49,19 @@ public class RequestManager{
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callback.onError(error.networkResponse.statusCode);
+                if ((error != null) && (error.networkResponse != null)) {
+                    callback.onError(error.networkResponse.statusCode);
+                } else {
+                    callback.onError(-1);
+                }
+
             }
         });
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
 
-    public void deGetRequest(String url, Context context, final RequestCallback callback) {
+    public void doGetRequest(String url, Context context, final RequestCallback callback) {
         doRequest(Request.Method.GET, url, context, callback);
 
     }

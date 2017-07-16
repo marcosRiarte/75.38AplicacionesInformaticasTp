@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.aplicacionesinformaticas.fiuba.R;
 import com.aplicacionesinformaticas.fiuba.model.User;
+import com.aplicacionesinformaticas.fiuba.requests.RequestCallback;
+import com.aplicacionesinformaticas.fiuba.requests.RequestManager;
 import com.aplicacionesinformaticas.fiuba.utils.SharedPreferencesManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -43,6 +45,19 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 showRegisterActivity();
+                //TEST del REQUEST MANAGER
+                //RequestManager rm = RequestManager.getInstance(LoginActivity.this);
+                //rm.doGetRequest("http://services.groupkt.com/country/get/all", LoginActivity.this, new RequestCallback() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(LoginActivity.this, "OK", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(int statusCode) {
+                        Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
