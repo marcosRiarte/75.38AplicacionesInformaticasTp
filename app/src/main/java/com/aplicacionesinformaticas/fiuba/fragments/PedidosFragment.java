@@ -30,7 +30,10 @@ import com.aplicacionesinformaticas.fiuba.model.Ingrediente;
 import com.aplicacionesinformaticas.fiuba.model.Orden;
 import com.aplicacionesinformaticas.fiuba.model.Plato;
 import com.aplicacionesinformaticas.fiuba.model.User;
+import com.aplicacionesinformaticas.fiuba.utils.FileReaderManager;
+import com.aplicacionesinformaticas.fiuba.utils.Parser;
 import com.aplicacionesinformaticas.fiuba.utils.SharedPreferencesManager;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,6 +122,7 @@ public class PedidosFragment extends Fragment {
     }
 
     private void crearPlatos(){
+        /*
         platoArrayList = new ArrayList<Plato>();
         platoArrayList.add(crearPlato1());
         platoArrayList.add(crearPlato2());
@@ -126,7 +130,25 @@ public class PedidosFragment extends Fragment {
         platoArrayList.add(crearPlato4());
         platoArrayList.add(crearPlato5());
         platoArrayList.add(crearPlato6());
+*/
 
+        String json = FileReaderManager.getInstance(getActivity()).getPlatosGuardados();
+        platoArrayList = Parser.getInstance(getActivity()).getPlatosArrayList(json);
+
+
+
+/*
+        ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+        ingredientes.add(crearIngrediente1());
+        ingredientes.add(crearIngrediente2());
+        ingredientes.add(crearIngrediente3());
+        ingredientes.add(crearIngrediente4());
+        ingredientes.add(crearIngrediente5());
+        ingredientes.add(crearIngrediente6());
+        ingredientes.add(crearIngrediente7());
+
+        ingredientes.remove(0);
+*/
     }
 
     private Plato crearPlato1(){
@@ -385,11 +407,11 @@ public class PedidosFragment extends Fragment {
     public class PlatosComboAdapter extends BaseAdapter {
 
         private Context context;
-        private List<Plato> platos;
+        private ArrayList<Plato> platos;
 
-        public PlatosComboAdapter(Context context, List<Plato> ingredientes) {
+        public PlatosComboAdapter(Context context, ArrayList<Plato> platosDelCombo) {
             this.context = context;
-            this.platos = ingredientes;
+            this.platos = platosDelCombo;
         }
 
         @Override
@@ -422,7 +444,7 @@ public class PedidosFragment extends Fragment {
             // Set data into the view.
             TextView nombreIngrediente = (TextView) rowView.findViewById(R.id.tvNombreIngrediente);
 
-            Plato plato = this.platos.get(position);
+            Plato plato = (Plato)this.platos.get(position);
             nombreIngrediente.setText(plato.getNombre());
 
             return rowView;
@@ -442,11 +464,19 @@ public class PedidosFragment extends Fragment {
 
         spPlatosPersonalizados = (Spinner)root.findViewById(R.id.spPlatosPersonalizados);
 
-        PlatosComboAdapter platosPersonalizadosAdapter = new PlatosComboAdapter(root.getContext(), platoArrayList.subList(0,2));
+
+        ArrayList<Plato> subList = new ArrayList<Plato>();
+        subList.add(platoArrayList.get(0));
+        subList.add(platoArrayList.get(1));
+        PlatosComboAdapter platosPersonalizadosAdapter = new PlatosComboAdapter(root.getContext(), subList);
         spPlatosPersonalizados.setAdapter(platosPersonalizadosAdapter);
         platosPersonalizadosAdapter.notifyDataSetChanged();
 
-        PlatosComboAdapter spMasPedidosAdapter = new PlatosComboAdapter(root.getContext(), platoArrayList.subList(2,4));
+        subList.remove(0);
+        subList.remove(0);
+        subList.add(platoArrayList.get(2));
+        subList.add(platoArrayList.get(3));
+        PlatosComboAdapter spMasPedidosAdapter = new PlatosComboAdapter(root.getContext(), subList);
         spMasPedidos.setAdapter(spMasPedidosAdapter);
         spMasPedidosAdapter.notifyDataSetChanged();
 

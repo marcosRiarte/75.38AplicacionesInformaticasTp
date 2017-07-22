@@ -46,8 +46,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 showRegisterActivity();
                 //TEST del REQUEST MANAGER
-                //RequestManager rm = RequestManager.getInstance(LoginActivity.this);
-                //rm.doGetRequest("http://services.groupkt.com/country/get/all", LoginActivity.this, new RequestCallback() {
+                /*
+                RequestManager rm = RequestManager.getInstance(LoginActivity.this);
+                rm.doGetRequest("http://services.groupkt.com/country/get/all", LoginActivity.this, new RequestCallback() {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(LoginActivity.this, "OK", Toast.LENGTH_LONG).show();
@@ -58,7 +59,9 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_LONG).show();
                     }
                 });
+                */
             }
+
         });
 
         etUser = (TextInputEditText) findViewById(R.id.etUserName);
