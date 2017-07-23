@@ -1,33 +1,40 @@
 {
 	"ingredientes": [{
+	    "id": 1,
 		"condicionesMedicasDondeEstaProhibido": [],
 		"nombre": "Pollo",
 		"precio": 20.0
 	}, {
+	    "id": 2,
 		"condicionesMedicasDondeEstaProhibido": [],
 		"nombre": "Carne",
 		"precio": 25.0
 	}, {
+	    "id": 3,
 		"condicionesMedicasDondeEstaProhibido": [],
 		"nombre": "Queso untable",
 		"precio": 15.0
 	}, {
+	    "id": 4,
 		"condicionesMedicasDondeEstaProhibido": [{
 			"tipo": "DIABETES"
 		}],
 		"nombre": "Miel",
 		"precio": 10.0
 	}, {
+	    "id": 5,
 		"condicionesMedicasDondeEstaProhibido": [],
 		"nombre": "Jamon Cocido",
 		"precio": 15.0
 	}, {
+	    "id": 6,
 		"condicionesMedicasDondeEstaProhibido": [{
 			"tipo": "HIPERTENSION"
 		}],
 		"nombre": "Jamon Crudo",
 		"precio": 20.0
 	}, {
+	    "id": 7,
 		"condicionesMedicasDondeEstaProhibido": [{
 			"tipo": "CELIACO"
 		}],

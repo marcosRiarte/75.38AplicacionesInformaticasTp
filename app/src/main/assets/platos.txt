@@ -1,15 +1,19 @@
 {
 	"platos": [{
+	    "id": 1,
 		"nombre": "1 - Flaco Spineta",
 		"ingredientesDelPlato": [{
+		    "id": 1,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Pollo",
 			"precio": 20.0
 		}, {
+		    "id": 3,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Queso untable",
 			"precio": 15.0
 		}, {
+		    "id": 4,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "DIABETES"
 			}],
@@ -20,22 +24,27 @@
 		"precioBase": 20.0,
 		"precioTotal": 0.0
 	}, {
+		"id": 2,
 		"nombre": "2 - Miles Davis",
 		"ingredientesDelPlato": [{
+		    "id": 2,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Carne",
 			"precio": 25.0
 		}, {
+		    "id": 4,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "DIABETES"
 			}],
 			"nombre": "Miel",
 			"precio": 10.0
 		}, {
+		    "id": 5,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Jamon Cocido",
 			"precio": 15.0
 		}, {
+		    "id": 7,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "CELIACO"
 			}],
@@ -46,22 +55,27 @@
 		"precioBase": 20.0,
 		"precioTotal": 0.0
 	}, {
+		"id": 3,
 		"nombre": "3 - Maceo Parker",
 		"ingredientesDelPlato": [{
+		    "id": 2,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Carne",
 			"precio": 25.0
 		}, {
+		    "id": 3,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Queso untable",
 			"precio": 15.0
 		}, {
+		    "id": 4,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "DIABETES"
 			}],
 			"nombre": "Miel",
 			"precio": 10.0
 		}, {
+		    "id": 5,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Jamon Cocido",
 			"precio": 15.0
@@ -70,22 +84,27 @@
 		"precioBase": 20.0,
 		"precioTotal": 0.0
 	}, {
+	    "id": 4,
 		"nombre": "4 - Carlos Santana",
 		"ingredientesDelPlato": [{
+		    "id": 3,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Queso untable",
 			"precio": 15.0
 		}, {
+		    "id": 4,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "DIABETES"
 			}],
 			"nombre": "Miel",
 			"precio": 10.0
 		}, {
+		    "id": 5,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Jamon Cocido",
 			"precio": 15.0
 		}, {
+		    "id": 6,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "HIPERTENSION"
 			}],
@@ -96,18 +115,22 @@
 		"precioBase": 20.0,
 		"precioTotal": 0.0
 	}, {
+	    "id": 5,
 		"nombre": "5 - Manu Chao",
 		"ingredientesDelPlato": [{
+		    "id": 4,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "DIABETES"
 			}],
 			"nombre": "Miel",
 			"precio": 10.0
 		}, {
+		    "id": 5,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Jamon Cocido",
 			"precio": 15.0
 		}, {
+		    "id": 6,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "HIPERTENSION"
 			}],
@@ -118,20 +141,25 @@
 		"precioBase": 20.0,
 		"precioTotal": 0.0
 	}, {
+	    "id": 6,
 		"nombre": "6 - Herbie Hancock",
 		"ingredientesDelPlato": [{
+		    "id": 1,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Pollo",
 			"precio": 20.0
 		}, {
+		    "id": 3,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Queso untable",
 			"precio": 15.0
 		}, {
+		    "id": 5,
 			"condicionesMedicasDondeEstaProhibido": [],
 			"nombre": "Jamon Cocido",
 			"precio": 15.0
 		}, {
+		    "id": 6,
 			"condicionesMedicasDondeEstaProhibido": [{
 				"tipo": "HIPERTENSION"
 			}],

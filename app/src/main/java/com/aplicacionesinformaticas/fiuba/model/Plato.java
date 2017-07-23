@@ -7,8 +7,7 @@ import java.lang.String;
 import java.util.ArrayList;
 
 public class Plato {
-    private int PRECIO_BASE = 20;
-
+    private int id;
     private float precioBase;
     private float precioTotal;
     private String nombre;
@@ -24,14 +23,11 @@ public class Plato {
    }
 
     public Plato(){
-        this.precioBase = PRECIO_BASE;
         this.precioTotal = 0;
         this.ingredientesDelPlato = new ArrayList<Ingrediente>();
     }
 
     public Plato(String nombre){
-
-        this.precioBase = PRECIO_BASE;
         this.precioTotal = 0;
         this.setNombre(nombre);
         this.ingredientesDelPlato = new ArrayList<Ingrediente>();
@@ -89,5 +85,13 @@ public class Plato {
         plato.setIngredientesDelPlato(this.getIngredientesDelPlato());
 
         return plato;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

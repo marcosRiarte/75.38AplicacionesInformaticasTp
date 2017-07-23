@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Ingrediente {
 
-
+    private int id;
     private String nombre;
     private float precio;
     private ArrayList <CondicionMedica>  condicionesMedicasDondeEstaProhibido;
@@ -50,5 +50,11 @@ public class Ingrediente {
         this.condicionesMedicasDondeEstaProhibido.add(condicionMedica);
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }

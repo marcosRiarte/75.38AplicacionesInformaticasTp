@@ -122,136 +122,17 @@ public class PedidosFragment extends Fragment {
     }
 
     private void crearPlatos(){
-        /*
-        platoArrayList = new ArrayList<Plato>();
-        platoArrayList.add(crearPlato1());
-        platoArrayList.add(crearPlato2());
-        platoArrayList.add(crearPlato3());
-        platoArrayList.add(crearPlato4());
-        platoArrayList.add(crearPlato5());
-        platoArrayList.add(crearPlato6());
-*/
-
-        String json = FileReaderManager.getInstance(getActivity()).getPlatosGuardados();
-        platoArrayList = Parser.getInstance(getActivity()).getPlatosArrayList(json);
 
 
+        String jsonPlatos = FileReaderManager.getInstance(getActivity()).getPlatosGuardados();
+        platoArrayList = Parser.getInstance(getActivity()).getPlatosArrayList(jsonPlatos);
 
-/*
-        ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
-        ingredientes.add(crearIngrediente1());
-        ingredientes.add(crearIngrediente2());
-        ingredientes.add(crearIngrediente3());
-        ingredientes.add(crearIngrediente4());
-        ingredientes.add(crearIngrediente5());
-        ingredientes.add(crearIngrediente6());
-        ingredientes.add(crearIngrediente7());
+        String jsonIngredientes = FileReaderManager.getInstance(getActivity()).getIngredientesGuardados();
+        ingredientesArrayList = Parser.getInstance(getActivity()).getIngredientesArrayList(jsonIngredientes);
 
-        ingredientes.remove(0);
-*/
     }
 
-    private Plato crearPlato1(){
-        Plato plato = new Plato();
-        plato.setNombre("1 - Flaco Spineta");
-        plato.agregarIngrediente(crearIngrediente1());
-        plato.agregarIngrediente(crearIngrediente3());
-        plato.agregarIngrediente(crearIngrediente4());
 
-        return plato;
-    }
-
-    private Plato crearPlato2(){
-        Plato plato = new Plato();
-        plato.setNombre("2 - Miles Davis");
-        plato.agregarIngrediente(crearIngrediente2());
-        plato.agregarIngrediente(crearIngrediente4());
-        plato.agregarIngrediente(crearIngrediente5());
-        plato.agregarIngrediente(crearIngrediente7());
-        return plato;
-    }
-
-    private Plato crearPlato3(){
-        Plato plato = new Plato();
-        plato.setNombre("3 - Maceo Parker");
-        plato.agregarIngrediente(crearIngrediente2());
-        plato.agregarIngrediente(crearIngrediente3());
-        plato.agregarIngrediente(crearIngrediente4());
-        plato.agregarIngrediente(crearIngrediente5());
-
-        return plato;
-    }
-    private Plato crearPlato4(){
-        Plato plato = new Plato();
-        plato.setNombre("4 - Carlos Santana");
-        plato.agregarIngrediente(crearIngrediente3());
-        plato.agregarIngrediente(crearIngrediente4());
-        plato.agregarIngrediente(crearIngrediente5());
-        plato.agregarIngrediente(crearIngrediente6());
-
-        return plato;
-    }
-    private Plato crearPlato5(){
-        Plato plato = new Plato();
-        plato.setNombre("5 - Manu Chao");
-        plato.agregarIngrediente(crearIngrediente4());
-        plato.agregarIngrediente(crearIngrediente5());
-        plato.agregarIngrediente(crearIngrediente6());
-        return plato;
-    }
-    private Plato crearPlato6(){
-        Plato plato = new Plato();
-        plato.setNombre("6 - Herbie Hancock");
-        plato.agregarIngrediente(crearIngrediente1());
-        plato.agregarIngrediente(crearIngrediente3());
-        plato.agregarIngrediente(crearIngrediente5());
-        plato.agregarIngrediente(crearIngrediente6());
-        return plato;
-    }
-    private Ingrediente crearIngrediente1(){
-        Ingrediente i = new Ingrediente("Pollo", 20);
-
-        return i;
-    }
-
-    private Ingrediente crearIngrediente2(){
-        Ingrediente i = new Ingrediente("Carne", 25);
-
-        return i;
-    }
-    private Ingrediente crearIngrediente3(){
-        Ingrediente i = new Ingrediente("Queso untable", 15);
-
-        return i;
-    }
-    private Ingrediente crearIngrediente4(){
-        ArrayList<CondicionMedica> condicionesIngrediente = new ArrayList<CondicionMedica>();
-        condicionesIngrediente.add(new CondicionMedica(CondicionMedica.CONDICION.DIABETES));
-        Ingrediente i = new Ingrediente("Miel", 10, condicionesIngrediente);
-
-        return i;
-    }
-    private Ingrediente crearIngrediente5(){
-        Ingrediente i = new Ingrediente("Jamon Cocido", 15);
-
-        return i;
-    }
-
-    private Ingrediente crearIngrediente6(){
-        ArrayList<CondicionMedica> condicionesIngrediente = new ArrayList<CondicionMedica>();
-        condicionesIngrediente.add(new CondicionMedica(CondicionMedica.CONDICION.HIPERTENSION));
-        Ingrediente i = new Ingrediente("Jamon Crudo", 20, condicionesIngrediente);
-
-        return i;
-    }
-
-    private Ingrediente crearIngrediente7(){
-        ArrayList<CondicionMedica> condicionesIngrediente = new ArrayList<CondicionMedica>();
-        condicionesIngrediente.add(new CondicionMedica(CondicionMedica.CONDICION.CELIACO));
-        Ingrediente i = new Ingrediente("Harina", 20, condicionesIngrediente);
-
-        return i;
-    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

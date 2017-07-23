@@ -2,6 +2,7 @@ package com.aplicacionesinformaticas.fiuba.utils;
 
 import android.content.Context;
 
+import com.aplicacionesinformaticas.fiuba.model.Ingrediente;
 import com.aplicacionesinformaticas.fiuba.model.Plato;
 import com.aplicacionesinformaticas.fiuba.model.User;
 import com.google.gson.Gson;
@@ -43,10 +44,25 @@ public class Parser {
         return platosContainer.platos;
     }
 
+    public ArrayList<Ingrediente> getIngredientesArrayList(String json){
+        Gson gson = new Gson();
+        IngredientesContainer ingredientesContainer =  gson.fromJson(json, IngredientesContainer.class);
+
+        return ingredientesContainer.ingredientes;
+    }
+
     class PlatosContainer{
         ArrayList<Plato> platos;
 
         public PlatosContainer(){
+
+        }
+    }
+
+    class IngredientesContainer{
+        ArrayList<Ingrediente> ingredientes;
+
+        public IngredientesContainer(){
 
         }
     }
