@@ -1,23 +1,17 @@
 {
-	"usuario": [{
-		"apellido": "sebas",
-		"userNameLogin": "sebas",
-		"condicionesMedicas": [{
-			"tipo": "DIABETES"
-		}, {
-			"tipo": "HIPERTENSION"
-		}],
-		"password": "sebas",
-		"ordenes": [],
-		"nombre": "sebas",
-		"nacimiento": "1/1/1900",
-		"hipotension": false,
-		"hipertension": true,
-		"hijos": 2,
-		"genero": 1,
-		"diabetes": true,
-		"puntos": 0,
-		"puntosCobrados": 0.0,
-		"celiaco": false
-	}]
+	"apellido": "corradi",
+	"condicionesMedicas": [{
+		"tipo": "DIABETES"
+	}, {
+		"tipo": "HIPERTENSION"
+	}],
+	"userNameLogin": "sebastian",
+	"password": "sebas123",
+	"nacimiento": "13/2/1983",
+	"nombre": "sebas",
+	"ordenes": [],
+	"hijos": 1,
+	"puntos": 0,
+	"puntosCobrados": 0.0,
+	"genero": 1
 }

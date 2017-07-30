@@ -16,10 +16,12 @@ public class User {
     private int genero;
     private int hijos;
     private int puntos = 0;
+    /*
     private boolean diabetes;
     private boolean hipertension;
     private boolean hipotension;
     private boolean celiaco;
+    */
     private String userNameLogin;
     private String password;
     private ArrayList<CondicionMedica> condicionesMedicas;
@@ -90,11 +92,10 @@ public class User {
     }
 
     public boolean isDiabetes() {
-        return diabetes;
+        return tieneCondicionMedica(CondicionMedica.CONDICION.DIABETES);
     }
 
     public void setDiabetes(boolean diabetes) {
-        this.diabetes = diabetes;
         if (diabetes) {
             agregarCondicionMedica(new CondicionMedica(CondicionMedica.CONDICION.DIABETES));
         } else {
@@ -103,11 +104,10 @@ public class User {
     }
 
     public boolean isHipertension() {
-        return hipertension;
+        return tieneCondicionMedica(CondicionMedica.CONDICION.HIPERTENSION);
     }
 
     public void setHipertension(boolean hipertension) {
-        this.hipertension = hipertension;
         if (hipertension) {
             agregarCondicionMedica(new CondicionMedica(CondicionMedica.CONDICION.HIPERTENSION));
         } else {
@@ -116,11 +116,10 @@ public class User {
     }
 
     public boolean isHipotension() {
-        return hipotension;
+        return tieneCondicionMedica(CondicionMedica.CONDICION.HIPOTENSION);
     }
 
     public void setHipotension(boolean hipotension) {
-        this.hipotension = hipotension;
         if (hipotension) {
             agregarCondicionMedica(new CondicionMedica(CondicionMedica.CONDICION.HIPOTENSION));
         } else {
@@ -129,17 +128,33 @@ public class User {
     }
 
     public boolean isCeliaco() {
-        return celiaco;
+        return tieneCondicionMedica(CondicionMedica.CONDICION.CELIACO);
 
     }
 
     public void setCeliaco(boolean celiaco) {
-        this.celiaco = celiaco;
         if (celiaco) {
             agregarCondicionMedica(new CondicionMedica(CondicionMedica.CONDICION.CELIACO));
         } else {
             quitarCondicionMedica(CondicionMedica.CONDICION.CELIACO);
         }
+    }
+
+    public void quitarCondicionMedica(CondicionMedica.CONDICION condicion){
+        for (int i = condicionesMedicas.size(); i > 0; i--) {
+            if (condicionesMedicas.get(i - 1).getTipo() == condicion){
+                condicionesMedicas.remove(i - 1);
+            }
+        }
+    }
+
+    public boolean tieneCondicionMedica(CondicionMedica.CONDICION condicion){
+        for (int i = 0; i < condicionesMedicas.size(); i++){
+            if (condicionesMedicas.get(i).getTipo() == condicion){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getUserNameLogin() {
@@ -171,14 +186,8 @@ public class User {
     }
 
     public void agregarCondicionMedica(CondicionMedica condicionMedica){
-        this.condicionesMedicas.add(condicionMedica);
-    }
-
-    public void quitarCondicionMedica(CondicionMedica.CONDICION condicion){
-        for (int i = condicionesMedicas.size(); i > 0; i--) {
-            if (condicionesMedicas.get(i - 1).getTipo() == condicion){
-                condicionesMedicas.remove(i - 1);
-            }
+        if (!tieneCondicionMedica(condicionMedica.getTipo())) {
+            this.condicionesMedicas.add(condicionMedica);
         }
     }
 
